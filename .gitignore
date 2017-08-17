@@ -12,6 +12,7 @@ LibVNCServer.spec
 x11vnc.spec.in
 .deps
 .libs
+.DS_Store
 aclocal.m4
 autom4te.cache
 libvncserver-config

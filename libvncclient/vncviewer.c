@@ -266,16 +266,16 @@ rfbClient* rfbGetClient(int bitsPerSample,int samplesPerPixel,
 
   client->destHost = NULL;
   client->destPort = 5900;
-  
+
   client->CurrentKeyboardLedState = 0;
   client->HandleKeyboardLedState = (HandleKeyboardLedStateProc)DummyPoint;
 
-  /* default: use complete frame buffer */ 
+  /* default: use complete frame buffer */
   client->updateRect.x = -1;
- 
+
   client->frameBuffer = NULL;
   client->outputWindow = 0;
- 
+
   client->format.bitsPerPixel = bytesPerPixel*8;
   client->format.depth = bitsPerSample*samplesPerPixel;
   client->appData.requestedDepth=client->format.depth;
@@ -416,6 +416,8 @@ static rfbBool rfbInitConnection(rfbClient* client)
 rfbBool rfbInitClient(rfbClient* client,int* argc,char** argv) {
   int i,j;
 
+  fprintf(stderr,"rfbInitClient 1\n");
+  fflush(stderr);
   if(argv && argc && *argc) {
     if(client->programName==0)
       client->programName=argv[0];
@@ -484,7 +486,12 @@ rfbBool rfbInitClient(rfbClient* client,int* argc,char** argv) {
     }
   }
 
+  fprintf(stderr,"rfbInitClient, init connection attempt 1\n");
+  fflush(stderr);
+
   if(!rfbInitConnection(client)) {
+    fprintf(stderr,"rfbInitClient, init connection attempt failed, cleanup\n");
+    fflush(stderr);
     rfbClientCleanup(client);
     return FALSE;
   }
